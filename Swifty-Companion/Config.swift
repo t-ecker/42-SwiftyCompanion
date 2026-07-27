@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum Config {
+nonisolated enum Config {
     static var clientID: String {
         guard let value = Bundle.main.object(forInfoDictionaryKey: "CLIENT_ID") as? String,
               !value.isEmpty else {
