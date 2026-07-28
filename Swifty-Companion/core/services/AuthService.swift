@@ -19,9 +19,11 @@ actor AuthService {
     
     public func getToken() async throws -> String {
         if let token = currentToken, !token.isExpired {
+            print("Using existing token")
             return token.accessToken
         }
         else if let existingTask = refreshTask {
+            print("Using existing refresh task")
             return try await existingTask.value.accessToken
         }
         let task = Task {
@@ -29,14 +31,17 @@ actor AuthService {
             currentToken = token
             return token
         }
+        print("Creating new refresh task")
         refreshTask = task
         defer { refreshTask = nil }
         
         let accessToken = try await task.value.accessToken
+        print("refrresh task done")
         return accessToken
     }
     
     private func refreshToken() async throws -> Token {
+        print("Refreshing token")
         guard let url = URL(string: "https://api.intra.42.fr/oauth/token") else {throw AuthError.invalidURL}
         var request = URLRequest(url: url)
         request.httpMethod = "POST"

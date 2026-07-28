@@ -14,6 +14,7 @@ class ApiService {
     }
     
     public func getUserInfo(userName: String) async throws -> UserData {
+        print("getting user info")
         guard let url = URL(string: "https://api.intra.42.fr/v2/users/\(userName)") else {
             throw ApiError.invalidURL
         }
@@ -21,6 +22,7 @@ class ApiService {
     }
     
     private func fetch<T: Decodable>(url: URL, retry: Bool = false) async throws -> T {
+        print("fetching \(url)")
         let token = try await authService.getToken()
         var request = URLRequest(url: url)
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
