@@ -20,7 +20,7 @@ class ApiService {
         return try await fetch(url: url)
     }
     
-    private func fetch<T: Decodable>(url: URL) async throws -> T {
+    private func fetch<T: Decodable>(url: URL, retry: Bool = false) async throws -> T {
         let token = try await authService.getToken()
         var request = URLRequest(url: url)
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
@@ -30,9 +30,27 @@ class ApiService {
         guard let httpResponse = response as? HTTPURLResponse else {
             throw ApiError.invalidResponse
         }
-        
-        guard (200...299).contains(httpResponse.statusCode) else {
-            throw ApiError.serverError(statusCode: httpResponse.statusCode)
+        switch httpResponse.statusCode {
+        case 200...299:
+            break
+        case 400:
+            throw ApiError.malformedRequest
+        case 401:
+            if (retry) {
+                throw ApiError.invalidToken
+            }
+            await authService.invalidateToken()
+            return try await fetch(url: url, retry: true)
+        case 403:
+            throw ApiError.forbiddenRequest
+        case 404:
+            throw ApiError.notFound
+        case 422:
+            throw ApiError.unprocessableRequest
+        case 500:
+            throw ApiError.serverError
+        default:
+            throw ApiError.otherError(statusCode: httpResponse.statusCode)
         }
         
         return try JSONDecoder().decode(T.self, from: data)

@@ -12,6 +12,11 @@ actor AuthService {
     private var refreshTask: Task<Token, Error>?
     
     
+    public func invalidateToken() {
+        currentToken = nil
+        refreshTask?.cancel()
+    }
+    
     public func getToken() async throws -> String {
         if let token = currentToken, !token.isExpired {
             return token.accessToken
