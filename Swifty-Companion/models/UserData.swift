@@ -32,15 +32,15 @@ nonisolated struct UserData: Codable {
         
         campusCity = raw.campus.first?.city ?? "Unknown"
         
-        start = raw.cursus_users.last?.beginAt ?? "Unknown"
-        level = raw.cursus_users.last?.level ?? 0
-        skills = raw.cursus_users.last?.skills ?? []
+        start = raw.cursusUsers.last?.beginAt ?? "Unknown"
+        level = raw.cursusUsers.last?.level ?? 0
+        skills = raw.cursusUsers.last?.skills ?? []
         
-        projects = raw.project_users.map { Project_user in
+        projects = raw.projectUsers.map { ProjectUser in
             Project(
-                finalGrade: Project_user.final_mark,
-                projectName: Project_user.project.name,
-                projectValidated: Project_user.validated
+                finalGrade: ProjectUser.final_mark,
+                projectName: ProjectUser.project.name,
+                projectValidated: ProjectUser.validated
             )
         }
     }
@@ -66,13 +66,15 @@ nonisolated private struct rawUserData: Decodable {
     
     let campus: [Campus]
     let image: Image
-    let cursus_users: [Curse]
-    let project_users: [Project_user]
+    let cursusUsers: [Curse]
+    let projectUsers: [ProjectUser]
     
     enum CodingKeys: String, CodingKey {
-        case login, email, campus, image, cursus_users, project_users
+        case login, email, campus, image
         case firstName = "first_name"
         case lastName = "last_name"
+        case cursusUsers = "cursus_users"
+        case projectUsers = "project_users"
     }
     
     struct Campus: Decodable {
@@ -91,8 +93,8 @@ nonisolated private struct rawUserData: Decodable {
             case level, skills
         }
     }
-    struct Project_user: Decodable {
-        let project: projectRaw
+    struct ProjectUser: Decodable {
+        let project: projectInfo
         let final_mark: Int
         let validated: Bool
         
@@ -101,7 +103,7 @@ nonisolated private struct rawUserData: Decodable {
             case validated = "validated?"
         }
     }
-    struct projectRaw: Decodable {
+    struct projectInfo: Decodable {
         let name: String
     }
 }
