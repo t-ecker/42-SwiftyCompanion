@@ -1,5 +1,5 @@
 //
-//  AuthErrors.swift
+//  ApiErrors.swift
 //  Swifty-Companion
 //
 //  Created by Tom Ecker on 27.07.26.

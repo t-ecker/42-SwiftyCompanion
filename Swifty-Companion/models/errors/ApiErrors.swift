@@ -7,17 +7,14 @@
 
 import Foundation
 
-enum AuthError: Error, LocalizedError {
-    case invalidCredentials
+enum ApiError: Error, LocalizedError {
+    case invalidURL
     case invalidToken
     case invalidResponse
-    case invalidURL
     case serverError(statusCode: Int)
     
     var errorDescription: String? {
         switch self {
-        case .invalidCredentials:
-            return "Invalid credentials"
         case .invalidToken:
             return "Invalid token"
         case .invalidResponse:
