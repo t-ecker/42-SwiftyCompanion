@@ -1,5 +1,5 @@
 //
-//  ApiErrors.swift
+//  AuthErrors.swift
 //  Swifty-Companion
 //
 //  Created by Tom Ecker on 27.07.26.
@@ -12,20 +12,35 @@ enum AuthError: Error, LocalizedError {
     case invalidToken
     case invalidResponse
     case invalidURL
-    case serverError(statusCode: Int)
-    
+    case malformedRequest
+    case serverError
+    case otherError(statusCode: Int)
+    case notFound
+    case forbiddenRequest
+    case unprocessableRequest
+
     var errorDescription: String? {
         switch self {
         case .invalidCredentials:
-            return "Invalid credentials"
+            return "[Auth] Invalid credentials"
         case .invalidToken:
-            return "Invalid token"
+            return "[Auth] Invalid token"
         case .invalidResponse:
-            return "Invalid response"
+            return "[Auth] Invalid response"
         case .invalidURL:
-            return "Invalid URL"
-        case .serverError(statusCode: let statusCode):
-            return "Server error with status code \(statusCode)"
+            return "[Auth] Invalid URL"
+        case .malformedRequest:
+            return "[Auth] Malformed request"
+        case .serverError:
+            return "[Auth] Server error"
+        case .forbiddenRequest:
+            return "[Auth] Forbidden endpoint"
+        case .notFound:
+            return "[Auth] Not Found"
+        case .unprocessableRequest:
+            return "[Auth] Unprocessable Request"
+        case .otherError(statusCode: let statusCode):
+            return "[Auth] Server responded with status code \(statusCode)"
         }
     }
 }

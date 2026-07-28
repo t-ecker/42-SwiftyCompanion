@@ -50,10 +50,25 @@ actor AuthService {
             throw AuthError.invalidResponse
         }
 
-        guard (200...299).contains(httpResponse.statusCode) else {
-            throw AuthError.serverError(statusCode: httpResponse.statusCode)
+        switch httpResponse.statusCode {
+        case 200...299:
+            break
+        case 400:
+            throw AuthError.malformedRequest
+        case 401:
+            throw AuthError.invalidCredentials
+        case 403:
+            throw AuthError.forbiddenRequest
+        case 404:
+            throw AuthError.notFound
+        case 422:
+            throw AuthError.unprocessableRequest
+        case 500:
+            throw AuthError.serverError
+        default:
+            throw AuthError.otherError(statusCode: httpResponse.statusCode)
         }
-        
+
         return try JSONDecoder().decode(Token.self, from: data)
     }
 }
