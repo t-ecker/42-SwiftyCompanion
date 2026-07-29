@@ -10,6 +10,7 @@ import Observation
 @Observable
 class SearchViewModel {
     private(set) var history: [HistoryEntry] = []
+    var searchText: String = ""
     
     public func addHistory(user: HistoryEntry) {
         if !history.contains(where: { $0.id == user.id }) {

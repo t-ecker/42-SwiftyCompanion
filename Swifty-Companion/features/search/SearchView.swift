@@ -11,15 +11,16 @@ struct SearchView: View {
     @State private var viewModel: SearchViewModel = SearchViewModel()
     
     var body: some View {
-        Text("Search")
-            .font(Font.largeTitle.bold())
-        if (!viewModel.history.isEmpty) {
-            SearchHistory(viewModel: viewModel)
+        NavigationStack {
+            content
+                .navigationTitle("Search")
         }
-        else {
-            Text("No recent searches")
-        }
-            
+        .searchable(text: $viewModel.searchText)
+    }
+    
+    @ViewBuilder
+    var content: some View {
+        if viewModel.history.isEmpty {Text("No recent searches")} else {SearchHistory(viewModel: viewModel)}
     }
 }
 
@@ -63,6 +64,7 @@ struct HistoryElement: View {
                     .font(Font.body)
             }
         }
+        .padding(.horizontal, 16)
     }
 }
 
