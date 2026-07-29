@@ -1,0 +1,84 @@
+//
+//  SearchHistory.swift
+//  Swifty-Companion
+//
+//  Created by Tom Ecker on 29.07.26.
+//
+
+import SwiftUI
+
+struct SearchHistory: View {
+    let viewModel: SearchViewModel
+    let isSearchFocused: Bool
+
+    var body: some View {
+        List {
+            Section {
+                ForEach(viewModel.history) { user in
+                    Button {
+                        viewModel.selectUser(user: user)
+                    } label: {
+                        HistoryElement(user: user)
+                    }
+                }
+            } header: {
+                if isSearchFocused {
+                    Text("Recent Searches")
+                } else {
+                    HStack {
+                        Text("Recent Searches")
+                        Spacer()
+                        Button("Clear all") {
+                            viewModel.clearHistory()
+                        }
+                    }
+                }
+            }
+        }
+        .listStyle(.insetGrouped)
+    }
+}
+
+
+struct HistoryElement: View {
+    let user: UserData
+
+    var body: some View {
+        HStack {
+            AsyncImage(url: URL(string: user.pictureLink)) { image in
+                image
+                    .resizable()
+                    .scaledToFill()
+            } placeholder: {
+                Color.gray
+            }
+            .frame(width: 50, height: 50)
+            .clipShape(Circle())
+
+            VStack (alignment: .leading){
+                Text(user.login)
+                    .font(Font.headline)
+                Text(user.firstName + " " + user.lastName)
+                    .font(Font.subheadline)
+                    .foregroundStyle(.secondary)
+            }
+            Spacer()
+        }
+    }
+}
+
+#Preview {
+    HistoryElement(user: UserData(
+        id: "jdoe",
+        login: "jdoe",
+        email: "jdoe@student.42.fr",
+        pictureLink: "https://cdn.intra.42.fr/users/small_jdoe.jpg",
+        firstName: "John",
+        lastName: "Doe",
+        campusCity: "Berlin",
+        start: "2024-01-15",
+        level: 5.42,
+        skills: [],
+        projects: []
+    ))
+}
