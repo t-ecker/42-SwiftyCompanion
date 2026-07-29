@@ -46,6 +46,32 @@ nonisolated struct UserData: Codable, Identifiable, Hashable {
             )
         }
     }
+    
+    init(
+        id: String,
+        login: String,
+        email: String,
+        pictureLink: String,
+        firstName: String,
+        lastName: String,
+        campusCity: String,
+        start: String,
+        level: Double,
+        skills: [Skill],
+        projects: [Project]
+    ) {
+        self.id = id
+        self.login = login
+        self.email = email
+        self.pictureLink = pictureLink
+        self.firstName = firstName
+        self.lastName = lastName
+        self.campusCity = campusCity
+        self.start = start
+        self.level = level
+        self.skills = skills
+        self.projects = projects
+    }
 }
 
 nonisolated struct Skill: Codable, Hashable {
@@ -76,7 +102,7 @@ nonisolated private struct rawUserData: Decodable {
         case firstName = "first_name"
         case lastName = "last_name"
         case cursusUsers = "cursus_users"
-        case projectUsers = "project_users"
+        case projectUsers = "projects_users"
     }
     
     struct Campus: Decodable {
@@ -109,17 +135,3 @@ nonisolated private struct rawUserData: Decodable {
         let name: String
     }
 }
-    
-
-//email
-//login
-//firstname
-//lastname
-//picture
-//project_users []
-//campus.city
-//
-//for common core not piscine:
-//cursus_users: level
-//cursus_users: beginAt
-//skills: id, level, name
