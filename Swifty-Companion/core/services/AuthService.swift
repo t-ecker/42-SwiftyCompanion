@@ -73,7 +73,7 @@ actor AuthService {
         default:
             throw AuthError.otherError(statusCode: httpResponse.statusCode)
         }
-
+        print("token refreshed!")
         return try JSONDecoder().decode(Token.self, from: data)
     }
 }

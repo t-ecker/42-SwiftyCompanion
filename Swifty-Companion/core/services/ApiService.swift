@@ -22,14 +22,16 @@ class ApiService {
     }
     
     private func fetch<T: Decodable>(url: URL, retry: Bool = false) async throws -> T {
-        print("fetching \(url)")
+        print("start fetching \(url)")
         let token = try await authService.getToken()
+        print("using token")
         var request = URLRequest(url: url)
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         
         let (data, response) = try await URLSession.shared.data(for: request)
-        
+        print("fetched real url")
         guard let httpResponse = response as? HTTPURLResponse else {
+            print("invalid response")
             throw ApiError.invalidResponse
         }
         switch httpResponse.statusCode {
