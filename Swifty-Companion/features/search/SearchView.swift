@@ -9,18 +9,21 @@ import SwiftUI
 
 struct SearchView: View {
     @State private var viewModel: SearchViewModel
-    
+    @FocusState private var isSearchFocused: Bool
+
     init(viewModel: SearchViewModel) {
         self.viewModel = viewModel
     }
-    
+
     var body: some View {
         NavigationStack {
             content
-                .navigationTitle("Search")
+                .navigationBarTitle(Text("Search"), displayMode: .automatic)
                 .searchable(text: $viewModel.searchText, placement: .toolbar, prompt: "Search for a user")
+                .searchFocused($isSearchFocused)
                 .onSubmit(of: .search) {
                     if !viewModel.searchText.isEmpty {
+                        isSearchFocused = false
                         Task {
                             try await viewModel.search()
                         }
@@ -57,39 +60,39 @@ struct SearchView: View {
     
     @ViewBuilder
     var content: some View {
-        if viewModel.history.isEmpty {Text("No recent searches")} else {SearchHistory(viewModel: viewModel)}
+        if viewModel.history.isEmpty {Text("No recent searches")} else {SearchHistory(viewModel: viewModel, isSearchFocused: isSearchFocused)}
     }
 }
 
 struct SearchHistory: View {
     let viewModel: SearchViewModel
-    
+    let isSearchFocused: Bool
+
     var body: some View {
-        VStack {
-            HStack {
-                Text("Recent Searches")
-                    .font(.subheadline)
-                Spacer()
-                Button("Clear all") {
-                    viewModel.clearHistory()
-                }
-            }
-            .padding(16)
-            
-            List {
+        List {
+            Section {
                 ForEach(viewModel.history) { user in
                     Button {
-                        print("show history user \(user.login)")
                         viewModel.selectUser(user: user)
                     } label: {
                         HistoryElement(user: user)
                     }
-                        
                 }
-                    
+            } header: {
+                if isSearchFocused {
+                    Text("Recent Searches")
+                } else {
+                    HStack {
+                        Text("Recent Searches")
+                        Spacer()
+                        Button("Clear all") {
+                            viewModel.clearHistory()
+                        }
+                    }
+                }
             }
         }
-            
+        .listStyle(.insetGrouped)
     }
 }
 
@@ -118,7 +121,6 @@ struct HistoryElement: View {
             }
             Spacer()
         }
-        .padding(.horizontal, 16)
     }
 }
 
