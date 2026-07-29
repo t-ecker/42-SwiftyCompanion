@@ -9,10 +9,17 @@ import Observation
 
 @Observable
 class SearchViewModel {
-    private(set) var history: [HistoryEntry] = []
+    private(set) var history: [UserData] = []
     var searchText: String = ""
+    private let apiService: ApiService
+    var isLoading: Bool = false
+    var activeUser: UserData? = nil
     
-    public func addHistory(user: HistoryEntry) {
+    init(apiService: ApiService) {
+        self.apiService = apiService
+    }
+    
+    public func addHistory(user: UserData) {
         if !history.contains(where: { $0.id == user.id }) {
             history.insert(user, at: 0)
         }
@@ -20,15 +27,16 @@ class SearchViewModel {
     public func clearHistory() {
         history.removeAll()
     }
-}
-
-
-
-
-
-struct HistoryEntry: Identifiable {
-    var id: String { username }
-    let username: String
-    let fullName: String
-    let imageLink: String
+    
+    public func selectUser (user: UserData) {
+        activeUser = user
+    }
+    
+    public func search() async throws {
+        isLoading = true
+        let profileInfo = try await apiService.getUserInfo(userName: searchText)
+        isLoading = false
+        addHistory(user: profileInfo)
+        activeUser = profileInfo
+    }
 }

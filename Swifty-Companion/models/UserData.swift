@@ -7,7 +7,8 @@
 
 import Foundation
 
-nonisolated struct UserData: Codable {
+nonisolated struct UserData: Codable, Identifiable, Hashable {
+    let id: String
     let login: String
     let email: String
     let pictureLink: String
@@ -25,6 +26,7 @@ nonisolated struct UserData: Codable {
     init(from decoder: any Decoder) throws {
         let raw = try rawUserData(from: decoder)
         login = raw.login
+        id = raw.login
         email = raw.email
         pictureLink = raw.image.link
         firstName = raw.firstName
@@ -46,13 +48,13 @@ nonisolated struct UserData: Codable {
     }
 }
 
-nonisolated struct Skill: Codable {
+nonisolated struct Skill: Codable, Hashable {
     let id: Int
     let level: Double
     let name: String
 }
 
-nonisolated struct Project: Codable {
+nonisolated struct Project: Codable, Hashable {
     let finalGrade: Int
     let projectName: String
     let projectValidated: Bool

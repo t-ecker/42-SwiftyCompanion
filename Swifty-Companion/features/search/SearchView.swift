@@ -8,14 +8,28 @@
 import SwiftUI
 
 struct SearchView: View {
-    @State private var viewModel: SearchViewModel = SearchViewModel()
+    @State private var viewModel: SearchViewModel
+    
+    init(viewModel: SearchViewModel) {
+        self.viewModel = viewModel
+    }
     
     var body: some View {
         NavigationStack {
             content
                 .navigationTitle("Search")
+                .searchable(text: $viewModel.searchText, placement: .toolbar, prompt: "Search for a user")
+                .onSubmit(of: .search) {
+                    if !viewModel.searchText.isEmpty {
+                        Task {
+                            try await viewModel.search()
+                        }
+                    }
+                }
+                .navigationDestination(for: UserData.self) { user in
+                    ProfileView(user: user)
+                }
         }
-        .searchable(text: $viewModel.searchText)
     }
     
     @ViewBuilder
@@ -41,7 +55,10 @@ struct SearchHistory: View {
             
             List {
                 ForEach(viewModel.history) { user in
-                    HistoryElement(user: user)
+                    NavigationLink(value: user) {
+                        HistoryElement(user: user)
+                    }
+                    
                 }
             }
             
@@ -50,17 +67,17 @@ struct SearchHistory: View {
 }
 
 struct HistoryElement: View {
-    let user: HistoryEntry
+    let user: UserData
     
     var body: some View {
         HStack {
-            AsyncImage(url: URL(string: user.imageLink))
+            AsyncImage(url: URL(string: user.pictureLink))
                 .frame(width: 50, height: 50)
             
             VStack {
-                Text(user.username)
+                Text(user.login)
                     .font(Font.subheadline)
-                Text(user.fullName)
+                Text(user.firstName + " " + user.lastName)
                     .font(Font.body)
             }
         }
@@ -69,5 +86,7 @@ struct HistoryElement: View {
 }
 
 #Preview {
-    SearchView()
+    let authService = AuthService()
+    let apiService = ApiService(authService: authService)
+    SearchView(viewModel: SearchViewModel(apiService: apiService))
 }
