@@ -81,9 +81,9 @@ nonisolated struct Skill: Codable, Hashable {
 }
 
 nonisolated struct Project: Codable, Hashable {
-    let finalGrade: Int
+    let finalGrade: Int?
     let projectName: String
-    let projectValidated: Bool
+    let projectValidated: Bool?
 }
 
 nonisolated private struct rawUserData: Decodable {
@@ -123,8 +123,8 @@ nonisolated private struct rawUserData: Decodable {
     }
     struct ProjectUser: Decodable {
         let project: projectInfo
-        let final_mark: Int
-        let validated: Bool
+        let final_mark: Int?
+        let validated: Bool?
         
         enum CodingKeys: String, CodingKey {
             case project, final_mark
