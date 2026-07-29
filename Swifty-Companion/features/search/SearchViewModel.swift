@@ -83,6 +83,7 @@ class SearchViewModel {
             addHistory(user: profileInfo)
             activeUser = profileInfo
             state = .idle
+            searchText = ""
             print("Found user: \(profileInfo.login)")
         } catch {
             state = .error(error)
