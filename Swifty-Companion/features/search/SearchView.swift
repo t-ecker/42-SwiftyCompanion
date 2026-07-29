@@ -26,9 +26,32 @@ struct SearchView: View {
                         }
                     }
                 }
-                .navigationDestination(for: UserData.self) { user in
+                .navigationDestination(item: $viewModel.activeUser) { user in
                     ProfileView(user: user)
                 }
+                .alert("Error", isPresented: $viewModel.state.isError) {
+                    Button("OK") {
+                        if case .error(let error) = viewModel.state {
+                            print(error.localizedDescription)
+                        }
+                    }
+                } message: {
+                    if case .error(let error) = viewModel.state {
+                        Text(error.localizedDescription)
+                    }
+                }
+        }
+        .overlay {
+            if case .loading = viewModel.state {
+                ZStack {
+                    Color.black.opacity(0.4)
+                        .ignoresSafeArea()
+                    
+                    ProgressView("Wait...")
+                        .scaleEffect(1.5)
+                        .tint(.white)
+                }
+            }
         }
     }
     
@@ -55,31 +78,45 @@ struct SearchHistory: View {
             
             List {
                 ForEach(viewModel.history) { user in
-                    NavigationLink(value: user) {
+                    Button {
+                        print("show history user \(user.login)")
+                        viewModel.selectUser(user: user)
+                    } label: {
                         HistoryElement(user: user)
                     }
-                    
+                        
                 }
+                    
             }
-            
         }
+            
     }
 }
+
 
 struct HistoryElement: View {
     let user: UserData
     
     var body: some View {
         HStack {
-            AsyncImage(url: URL(string: user.pictureLink))
-                .frame(width: 50, height: 50)
-            
-            VStack {
-                Text(user.login)
-                    .font(Font.subheadline)
-                Text(user.firstName + " " + user.lastName)
-                    .font(Font.body)
+            AsyncImage(url: URL(string: user.pictureLink)) { image in
+                image
+                    .resizable()
+                    .scaledToFill()
+            } placeholder: {
+                Color.gray
             }
+            .frame(width: 50, height: 50)
+            .clipShape(Circle())
+            
+            VStack (alignment: .leading){
+                Text(user.login)
+                    .font(Font.headline)
+                Text(user.firstName + " " + user.lastName)
+                    .font(Font.subheadline)
+                    .foregroundStyle(.secondary)
+            }
+            Spacer()
         }
         .padding(.horizontal, 16)
     }
@@ -89,4 +126,20 @@ struct HistoryElement: View {
     let authService = AuthService()
     let apiService = ApiService(authService: authService)
     SearchView(viewModel: SearchViewModel(apiService: apiService))
+}
+
+#Preview {
+    HistoryElement(user: UserData(
+        id: "jdoe",
+        login: "jdoe",
+        email: "jdoe@student.42.fr",
+        pictureLink: "https://cdn.intra.42.fr/users/small_jdoe.jpg",
+        firstName: "John",
+        lastName: "Doe",
+        campusCity: "Berlin",
+        start: "2024-01-15",
+        level: 5.42,
+        skills: [],
+        projects: []
+    ))
 }
