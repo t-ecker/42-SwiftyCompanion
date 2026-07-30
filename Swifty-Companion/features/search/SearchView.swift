@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SearchView: View {
     @State private var viewModel: SearchViewModel
-    @FocusState private var isSearchFocused: Bool
+    @State private var isSearchPresented: Bool = false
 
     init(viewModel: SearchViewModel) {
         self.viewModel = viewModel
@@ -19,11 +19,9 @@ struct SearchView: View {
         NavigationStack {
             content
                 .navigationBarTitle(Text("Search"), displayMode: .large)
-                .searchable(text: $viewModel.searchText, placement: .toolbar, prompt: "Search for a user")
-                .searchFocused($isSearchFocused)
+                .searchable(text: $viewModel.searchText, isPresented: $isSearchPresented, placement: .toolbar, prompt: "Search for a user")
                 .onSubmit(of: .search) {
                     if !viewModel.searchText.isEmpty {
-                        isSearchFocused = false
                         Task {
                             try await viewModel.search()
                         }
@@ -31,6 +29,9 @@ struct SearchView: View {
                 }
                 .navigationDestination(item: $viewModel.activeUser) { user in
                     ProfileView(user: user)
+                }
+                .onChange(of: viewModel.activeUser) {
+                    isSearchPresented = false
                 }
                 .alert("Error", isPresented: $viewModel.state.isError) {
                     Button("OK") {
@@ -60,7 +61,7 @@ struct SearchView: View {
     
     @ViewBuilder
     var content: some View {
-        if viewModel.history.isEmpty {Text("No recent searches")} else {SearchHistory(viewModel: viewModel, isSearchFocused: isSearchFocused)}
+        if viewModel.history.isEmpty {Text("No recent searches")} else {SearchHistory(viewModel: viewModel, isSearching: isSearchPresented)}
     }
 }
 

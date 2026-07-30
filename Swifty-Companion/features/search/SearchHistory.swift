@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SearchHistory: View {
     let viewModel: SearchViewModel
-    let isSearchFocused: Bool
+    let isSearching: Bool
 
     var body: some View {
         List {
@@ -22,7 +22,7 @@ struct SearchHistory: View {
                     }
                 }
             } header: {
-                if isSearchFocused {
+                if isSearching {
                     Text("Recent Searches")
                 } else {
                     HStack {
