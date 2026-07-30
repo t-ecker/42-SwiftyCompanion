@@ -76,6 +76,8 @@ struct HistoryElement: View {
         firstName: "John",
         lastName: "Doe",
         campusCity: "Berlin",
+        evalPoints: 4,
+        grade: "Learner",
         start: "2024-01-15",
         level: 5.42,
         skills: [],
