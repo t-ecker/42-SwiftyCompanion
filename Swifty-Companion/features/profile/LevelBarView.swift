@@ -8,11 +8,29 @@
 import SwiftUI
 
 struct LevelBarView: View {
+    let user: UserData
+    
+    var levelProgress: Double {
+        user.level - user.level.rounded(.down)
+    }
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack {
+            HStack {
+                Text("Level: \(Int(user.level))")
+                    .font(.caption.bold())
+                Spacer()
+                Text("\(Int(levelProgress * 100)) %")
+                    .font(.caption.bold())
+            }
+            ProgressView(value: levelProgress)
+                .scaleEffect(y: 2)
+        }
+        .padding(.horizontal, 48)
+        .padding(.top)
     }
 }
 
-#Preview {
-    LevelBarView()
-}
+//#Preview {
+//    LevelBarView()
+//}
