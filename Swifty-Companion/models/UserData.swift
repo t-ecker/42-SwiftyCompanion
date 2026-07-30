@@ -34,13 +34,13 @@ nonisolated struct UserData: Codable, Identifiable, Hashable {
         firstName = raw.firstName
         lastName = raw.lastName
         evalPoints = raw.evalPoints
-        grade = raw.grade
         
         campusCity = raw.campus.first?.city ?? "Unknown"
         
         start = raw.cursusUsers.last?.beginAt ?? "Unknown"
         level = raw.cursusUsers.last?.level ?? 0
         skills = raw.cursusUsers.last?.skills ?? []
+        grade = raw.cursusUsers.last?.grade ?? "Unknown"
         
         projects = raw.projectUsers.map { ProjectUser in
             Project(
@@ -102,7 +102,6 @@ nonisolated private struct rawUserData: Decodable {
     let firstName: String
     let lastName: String
     let evalPoints: Int
-    let grade: String
     
     let campus: [Campus]
     let image: Image
@@ -110,7 +109,7 @@ nonisolated private struct rawUserData: Decodable {
     let projectUsers: [ProjectUser]
     
     enum CodingKeys: String, CodingKey {
-        case login, email, campus, image, grade
+        case login, email, campus, image
         case firstName = "first_name"
         case lastName = "last_name"
         case cursusUsers = "cursus_users"
@@ -128,10 +127,11 @@ nonisolated private struct rawUserData: Decodable {
         let beginAt: String
         let level: Double
         let skills: [Skill]
+        let grade: String
         
         enum CodingKeys: String, CodingKey {
             case beginAt = "begin_at"
-            case level, skills
+            case level, skills, grade
         }
     }
     struct ProjectUser: Decodable {
