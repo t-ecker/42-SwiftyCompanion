@@ -19,7 +19,7 @@ struct SearchView: View {
         NavigationStack {
             content
                 .navigationBarTitle(Text("Search"), displayMode: .large)
-                .searchable(text: $viewModel.searchText, isPresented: $isSearchPresented, placement: .toolbar, prompt: "Search for a user")
+                .searchable(text: $viewModel.searchText, isPresented: $isSearchPresented, placement: .toolbar, prompt: "search")
                 .onSubmit(of: .search) {
                     if !viewModel.searchText.isEmpty {
                         Task {
@@ -61,7 +61,15 @@ struct SearchView: View {
     
     @ViewBuilder
     var content: some View {
-        if viewModel.history.isEmpty {Text("No recent searches")} else {SearchHistory(viewModel: viewModel, isSearching: isSearchPresented)}
+        if viewModel.history.isEmpty {
+            ContentUnavailableView {
+                Label("Find a User", systemImage: "magnifyingglass")
+            } description: {
+                Text("Search for a user to get started")
+            }
+        } else {
+            SearchHistory(viewModel: viewModel, isSearching: isSearchPresented)
+        }
     }
 }
 
