@@ -14,6 +14,8 @@ nonisolated struct UserData: Codable, Identifiable, Hashable {
     let pictureLink: String
     let firstName: String
     let lastName: String
+    let evalPoints: Int
+    let grade: String
     
     let campusCity: String
     
@@ -31,6 +33,8 @@ nonisolated struct UserData: Codable, Identifiable, Hashable {
         pictureLink = raw.image.link
         firstName = raw.firstName
         lastName = raw.lastName
+        evalPoints = raw.evalPoints
+        grade = raw.grade
         
         campusCity = raw.campus.first?.city ?? "Unknown"
         
@@ -40,9 +44,10 @@ nonisolated struct UserData: Codable, Identifiable, Hashable {
         
         projects = raw.projectUsers.map { ProjectUser in
             Project(
+                id: ProjectUser.project.name,
                 finalGrade: ProjectUser.final_mark,
-                projectName: ProjectUser.project.name,
-                projectValidated: ProjectUser.validated
+                name: ProjectUser.project.name,
+                isValidated: ProjectUser.validated
             )
         }
     }
@@ -55,6 +60,8 @@ nonisolated struct UserData: Codable, Identifiable, Hashable {
         firstName: String,
         lastName: String,
         campusCity: String,
+        evalPoints: Int,
+        grade: String,
         start: String,
         level: Double,
         skills: [Skill],
@@ -67,6 +74,8 @@ nonisolated struct UserData: Codable, Identifiable, Hashable {
         self.firstName = firstName
         self.lastName = lastName
         self.campusCity = campusCity
+        self.evalPoints = evalPoints
+        self.grade = grade
         self.start = start
         self.level = level
         self.skills = skills
@@ -74,16 +83,17 @@ nonisolated struct UserData: Codable, Identifiable, Hashable {
     }
 }
 
-nonisolated struct Skill: Codable, Hashable {
+nonisolated struct Skill: Codable, Hashable, Identifiable {
     let id: Int
     let level: Double
     let name: String
 }
 
-nonisolated struct Project: Codable, Hashable {
+nonisolated struct Project: Codable, Hashable, Identifiable {
+    let id: String
     let finalGrade: Int?
-    let projectName: String
-    let projectValidated: Bool?
+    let name: String
+    let isValidated: Bool?
 }
 
 nonisolated private struct rawUserData: Decodable {
@@ -91,6 +101,8 @@ nonisolated private struct rawUserData: Decodable {
     let email: String
     let firstName: String
     let lastName: String
+    let evalPoints: Int
+    let grade: String
     
     let campus: [Campus]
     let image: Image
@@ -98,11 +110,12 @@ nonisolated private struct rawUserData: Decodable {
     let projectUsers: [ProjectUser]
     
     enum CodingKeys: String, CodingKey {
-        case login, email, campus, image
+        case login, email, campus, image, grade
         case firstName = "first_name"
         case lastName = "last_name"
         case cursusUsers = "cursus_users"
         case projectUsers = "projects_users"
+        case evalPoints = "correction_point"
     }
     
     struct Campus: Decodable {
