@@ -54,6 +54,14 @@ struct HistoryElement: View {
             }
             .frame(width: 50, height: 50)
             .clipShape(Circle())
+            .overlay(
+                Circle()
+                    .strokeBorder(Color.gray.opacity(0.3), lineWidth: 1)
+            )
+            .overlay(
+                Circle()
+                    .stroke(Color.gray.opacity(0.3), lineWidth: 1)
+            )
 
             VStack (alignment: .leading){
                 Text(user.login)

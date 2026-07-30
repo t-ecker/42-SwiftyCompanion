@@ -31,6 +31,14 @@ struct ProfileHeaderView: View {
             }
             .frame(width: 200, height: 200)
             .clipShape(Circle())
+            .overlay(
+                Circle()
+                    .strokeBorder(Color.white, lineWidth: 2)
+            )
+            .overlay(
+                Circle()
+                    .stroke(Color.white, lineWidth: 1)
+            )
             
             Text(user.login)
                 .font(Font.title.bold())
