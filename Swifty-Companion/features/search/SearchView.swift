@@ -51,7 +51,7 @@ struct SearchView: View {
                     Color.black.opacity(0.4)
                         .ignoresSafeArea()
                     
-                    ProgressView("Wait...")
+                    ProgressView()
                         .scaleEffect(1.5)
                         .tint(.white)
                 }
