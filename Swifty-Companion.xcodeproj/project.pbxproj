@@ -7,14 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5D25ED4E302240A000960579 /* .env.example in Sources */ = {isa = PBXBuildFile; fileRef = 5D25ED4D3022409800960579 /* .env.example */; };
-		5D25ED50302240EF00960579 /* .env in Sources */ = {isa = PBXBuildFile; fileRef = 5D25ED4F302240EF00960579 /* .env */; };
-		5D25ED513022418700960579 /* .env in Resources */ = {isa = PBXBuildFile; fileRef = 5D25ED4F302240EF00960579 /* .env */; };
+		5D25EE3830224CF000960579 /* .env in Resources */ = {isa = PBXBuildFile; fileRef = 5D25EE3530224C9400960579 /* .env */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		5D25ED4D3022409800960579 /* .env.example */ = {isa = PBXFileReference; lastKnownFileType = text; path = .env.example; sourceTree = "<group>"; };
-		5D25ED4F302240EF00960579 /* .env */ = {isa = PBXFileReference; lastKnownFileType = text; path = .env; sourceTree = "<group>"; };
+		5D25EE3530224C9400960579 /* .env */ = {isa = PBXFileReference; lastKnownFileType = text; path = .env; sourceTree = "<group>"; };
 		5D6626793016A39B0019624A /* Swifty-Companion.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Swifty-Companion.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5D6626873016A3DD0019624A /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -55,7 +53,7 @@
 			isa = PBXGroup;
 			children = (
 				5D25ED4D3022409800960579 /* .env.example */,
-				5D25ED4F302240EF00960579 /* .env */,
+				5D25EE3530224C9400960579 /* .env */,
 				5D6626873016A3DD0019624A /* .gitignore */,
 				5D66267B3016A39B0019624A /* Swifty-Companion */,
 				5D66267A3016A39B0019624A /* Products */,
@@ -134,7 +132,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5D25ED513022418700960579 /* .env in Resources */,
+				5D25EE3830224CF000960579 /* .env in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -145,8 +143,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5D25ED4E302240A000960579 /* .env.example in Sources */,
-				5D25ED50302240EF00960579 /* .env in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
