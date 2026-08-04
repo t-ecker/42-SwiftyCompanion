@@ -60,6 +60,7 @@ class ApiService {
          do {
              return try JSONDecoder().decode(T.self, from: data)
          } catch {
+             print("Decoding failed: \(error)")
              throw ApiError.decodingFailed
          }
     }

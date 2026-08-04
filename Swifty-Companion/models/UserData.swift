@@ -129,7 +129,7 @@ nonisolated private struct RawUserData: Decodable {
         let beginAt: String
         let level: Double
         let skills: [Skill]
-        let grade: String
+        let grade: String?
         let curse: CurseInfo
         
         enum CodingKeys: String, CodingKey {
