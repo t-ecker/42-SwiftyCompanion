@@ -15,6 +15,7 @@ xcuserdata/
 
 Secrets.xcconfig
 en.subject.pdf
+.env
 
 ## Playgrounds
 timeline.xctimeline
