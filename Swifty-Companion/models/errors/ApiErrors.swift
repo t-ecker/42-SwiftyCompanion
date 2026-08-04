@@ -20,8 +20,10 @@ enum ApiError: Error, LocalizedError {
     
     var errorDescription: String? {
         switch self {
+        case .notFound:
+            return "No student with that login exists on the intra."
         case .invalidToken:
-            return "[API] Invalid token"
+            return "The app couldn't authenticate with the 42 intra."
         case .invalidResponse:
             return "[API] Invalid response"
         case .malformedRequest:
@@ -31,13 +33,11 @@ enum ApiError: Error, LocalizedError {
         case .serverError:
             return "[API] Server error"
         case .forbiddenRequest:
-            return "[API] forbidden endpoint"
-        case .notFound:
-            return "[API] Not Found"
+            return "We dont have access to that information."
         case .unprocessableRequest:
             return "[API] Unprocessable Request"
         case .otherError(statusCode: let statusCode):
-            return "[API] Server responded with status code \(statusCode)"
+            return "The 42 intra responded with status code \(statusCode)."
         }
     }
 }
