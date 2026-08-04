@@ -12,12 +12,14 @@ struct ProjectListView: View {
     
     var body: some View {
         List{
-            ForEach(projects) { project in
-                ProjectElement(project: project)
+            if projects.isEmpty {
+                ContentUnavailableView("No projects yet", systemImage: "folder.badge.questionmark")
+            } else {
+                ForEach(projects) { project in
+                    ProjectElement(project: project)
+                }
             }
         }
-//        .listStyle(.plain)
-//        .padding(.horizontal)
     }
 }
 
@@ -58,3 +60,13 @@ struct ProjectElement: View {
 //#Preview {
 //    ProjectListView()
 //}
+#Preview {
+    ProjectListView(projects: [
+//        Project(id: "libft", finalGrade: 125, name: "Libft", isValidated: true),
+//        Project(id: "ft_printf", finalGrade: 100, name: "ft_printf", isValidated: true),
+//        Project(id: "get_next_line", finalGrade: 84, name: "get_next_line", isValidated: true),
+//        Project(id: "born2beroot", finalGrade: 95, name: "Born2beroot", isValidated: true),
+//        Project(id: "pipex", finalGrade: nil, name: "pipex", isValidated: nil)
+    ])
+}
+

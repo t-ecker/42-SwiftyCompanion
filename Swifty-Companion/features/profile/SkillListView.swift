@@ -16,12 +16,14 @@ struct SkillListView: View {
     
     var body: some View {
         List{
-            ForEach(sortedSkills) { skill in
-                SkillElement(skill: skill)
+            if skills.isEmpty {
+                ContentUnavailableView("No skills yet", systemImage: "chart.pie")
+            } else {
+                ForEach(sortedSkills) { skill in
+                    SkillElement(skill: skill)
+                }
             }
         }
-//        .listStyle(.plain)
-//        .padding(.horizontal)
     }
 }
 
@@ -45,12 +47,12 @@ struct SkillElement: View {
     }
 }
 
-//#Preview {
-//    SkillListView(skills: [
+#Preview {
+    SkillListView(skills: [
 //        Skill(id: 1, level: 7.2, name: "Algorithms & AI"),
 //        Skill(id: 2, level: 5.8, name: "Graphics"),
 //        Skill(id: 3, level: 3.7, name: "Unix"),
 //        Skill(id: 4, level: 9.1, name: "Rigor"),
 //        Skill(id: 5, level: 4.3, name: "Imperative programming")
-//    ])
-//}
+    ])
+}
