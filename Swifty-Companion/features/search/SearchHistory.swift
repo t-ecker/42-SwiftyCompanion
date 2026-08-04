@@ -20,6 +20,7 @@ struct SearchHistory: View {
                     } label: {
                         HistoryElement(user: user)
                     }
+                    .buttonStyle(.plain)
                 }
             } header: {
                 if isSearching {
