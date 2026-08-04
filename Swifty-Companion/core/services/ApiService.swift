@@ -57,12 +57,10 @@ class ApiService {
             throw ApiError.otherError(statusCode: httpResponse.statusCode)
         }
         
-       return try JSONDecoder().decode(T.self, from: data)
-        // do {
-        //     return try JSONDecoder().decode(T.self, from: data)
-        // } catch let decodingError as DecodingError {
-        //     print("DECODING FEHLER: \(decodingError)")
-        //     throw decodingError
-        // }
+         do {
+             return try JSONDecoder().decode(T.self, from: data)
+         } catch {
+             throw ApiError.decodingFailed
+         }
     }
 }

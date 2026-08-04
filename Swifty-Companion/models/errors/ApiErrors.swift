@@ -17,6 +17,7 @@ enum ApiError: Error, LocalizedError {
     case notFound
     case forbiddenRequest
     case unprocessableRequest
+    case decodingFailed
     
     var errorDescription: String? {
         switch self {
@@ -36,6 +37,8 @@ enum ApiError: Error, LocalizedError {
             return "We dont have access to that information."
         case .unprocessableRequest:
             return "[API] Unprocessable Request"
+        case .decodingFailed:
+            return "Couldn't read the profile data from the intra."
         case .otherError(statusCode: let statusCode):
             return "The 42 intra responded with status code \(statusCode)."
         }
