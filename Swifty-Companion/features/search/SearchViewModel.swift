@@ -37,6 +37,11 @@ class SearchViewModel {
         print("Searching for \(searchText)")
         state = .loading
         do {
+            let username = searchText.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+            guard !username.isEmpty else {
+                state = .idle
+                return
+            }
             let profileInfo = try await apiService.getUserInfo(userName: searchText.trimmingCharacters(in: .whitespacesAndNewlines).lowercased())
             addHistory(user: profileInfo)
             activeUser = profileInfo

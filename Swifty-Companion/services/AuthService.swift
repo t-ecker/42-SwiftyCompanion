@@ -14,7 +14,6 @@ actor AuthService {
     
     func invalidateToken() {
         currentToken = nil
-        refreshTask?.cancel()
         refreshTask = nil
     }
     
