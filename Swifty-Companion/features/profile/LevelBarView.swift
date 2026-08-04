@@ -25,6 +25,7 @@ struct LevelBarView: View {
             }
             ProgressView(value: levelProgress)
                 .scaleEffect(y: 2)
+                .tint(Color.cyan)
         }
         .padding(.horizontal, 48)
         .padding(.top)

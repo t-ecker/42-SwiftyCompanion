@@ -46,7 +46,6 @@ struct SearchView: View {
                     }
                 }
         }
-        .tint(.black)
         .overlay {
             if case .loading = viewModel.state {
                 ZStack {

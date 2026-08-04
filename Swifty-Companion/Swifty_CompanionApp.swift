@@ -10,6 +10,7 @@ import SwiftUI
 @main
 struct Swifty_CompanionApp: App {
     let apiService = ApiService(authService: AuthService())
+    
     var body: some Scene {
         WindowGroup {
             SearchView(viewModel: SearchViewModel(apiService: apiService))
