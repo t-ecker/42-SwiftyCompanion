@@ -37,10 +37,12 @@ nonisolated struct UserData: Codable, Identifiable, Hashable {
         
         campusCity = raw.campus.first?.city ?? "Unknown"
         
-        start = raw.cursusUsers.last?.beginAt ?? "Unknown"
-        level = raw.cursusUsers.last?.level ?? 0
-        skills = raw.cursusUsers.last?.skills ?? []
-        grade = raw.cursusUsers.last?.grade ?? "Unknown"
+        let commonCore = raw.cursusUsers.first(where: { $0.curse.name == "42cursus" }) ?? raw.cursusUsers.last
+        
+        start = commonCore?.beginAt ?? "Unknown"
+        level = commonCore?.level ?? 0
+        skills = commonCore?.skills ?? []
+        grade = commonCore?.grade ?? "Unknown"
         
         projects = raw.projectUsers.map { ProjectUser in
             Project(
@@ -128,11 +130,17 @@ nonisolated private struct rawUserData: Decodable {
         let level: Double
         let skills: [Skill]
         let grade: String
+        let curse: CurseInfo
         
         enum CodingKeys: String, CodingKey {
             case beginAt = "begin_at"
             case level, skills, grade
+            case curse = "cursus"
         }
+    }
+    
+    struct CurseInfo: Decodable {
+        let name: String
     }
     struct ProjectUser: Decodable {
         let project: projectInfo
