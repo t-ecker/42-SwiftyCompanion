@@ -56,7 +56,7 @@ struct ProfileHeaderView: View {
 
     var body: some View {
         VStack {
-            AsyncImage(url: URL(string: user.pictureLink)) { image in
+            AsyncImage(url: URL(string: user.pictureLink ?? "")) { image in
                 image
                     .resizable()
                     .scaledToFill()

@@ -43,7 +43,7 @@ struct HistoryElement: View {
 
     var body: some View {
         HStack {
-            AsyncImage(url: URL(string: user.pictureLink)) { image in
+            AsyncImage(url: URL(string: user.pictureLink ?? "")) { image in
                 image
                     .resizable()
                     .scaledToFill()

@@ -11,11 +11,12 @@ nonisolated struct UserData: Codable, Identifiable, Hashable {
     let id: String
     let login: String
     let email: String
-    let pictureLink: String
+    let pictureLink: String?
     let firstName: String
     let lastName: String
     let evalPoints: Int
     let grade: String
+    let staff: Bool
     
     let campusCity: String
     
@@ -30,10 +31,11 @@ nonisolated struct UserData: Codable, Identifiable, Hashable {
         login = raw.login
         id = raw.login
         email = raw.email
-        pictureLink = raw.image.link
+        pictureLink = raw.image?.link ?? nil
         firstName = raw.firstName
         lastName = raw.lastName
         evalPoints = raw.evalPoints
+        staff = raw.staff
         
         campusCity = raw.campus.first?.city ?? "Unknown"
         
@@ -42,7 +44,7 @@ nonisolated struct UserData: Codable, Identifiable, Hashable {
         start = commonCore?.beginAt ?? "Unknown"
         level = commonCore?.level ?? 0
         skills = commonCore?.skills ?? []
-        grade = commonCore?.grade ?? "Unknown"
+        grade = commonCore?.grade ?? (staff ? "Staff" : "Unknown")
         
         projects = raw.projectUsers.map { ProjectUser in
             Project(
@@ -58,7 +60,7 @@ nonisolated struct UserData: Codable, Identifiable, Hashable {
         id: String,
         login: String,
         email: String,
-        pictureLink: String,
+        pictureLink: String?,
         firstName: String,
         lastName: String,
         campusCity: String,
@@ -82,6 +84,7 @@ nonisolated struct UserData: Codable, Identifiable, Hashable {
         self.level = level
         self.skills = skills
         self.projects = projects
+        self.staff = false
     }
 }
 
@@ -104,9 +107,10 @@ nonisolated private struct RawUserData: Decodable {
     let firstName: String
     let lastName: String
     let evalPoints: Int
+    let staff: Bool
     
     let campus: [Campus]
-    let image: Image
+    let image: Image?
     let cursusUsers: [Curse]
     let projectUsers: [ProjectUser]
     
@@ -117,13 +121,14 @@ nonisolated private struct RawUserData: Decodable {
         case cursusUsers = "cursus_users"
         case projectUsers = "projects_users"
         case evalPoints = "correction_point"
+        case staff = "staff?"
     }
     
     struct Campus: Decodable {
         let city: String
     }
     struct Image: Decodable {
-        let link: String
+        let link: String?
     }
     struct Curse: Decodable {
         let beginAt: String

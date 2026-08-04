@@ -49,6 +49,7 @@ class SearchViewModel {
             searchText = ""
             print("Found user: \(profileInfo.login)")
         } catch {
+            print("Search error: \(error)")
             state = .error(error)
         }
     }
