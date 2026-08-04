@@ -10,17 +10,16 @@ import Foundation
 nonisolated struct Token: Codable {
     let accessToken: String
     let expiresIn: Int
-    let createdAt: Int
-    
+
+    let receivedAt: Date = Date()
+
     enum CodingKeys: String, CodingKey {
         case accessToken = "access_token"
         case expiresIn = "expires_in"
-        case createdAt = "created_at"
     }
-    
+
     var isExpired: Bool {
-        let expirationDate = Date(timeIntervalSince1970: TimeInterval(createdAt + expiresIn))
         let buffer: TimeInterval = 60
-        return Date() >= expirationDate.addingTimeInterval(-buffer)
+        return Date() >= receivedAt.addingTimeInterval(TimeInterval(expiresIn) - buffer)
     }
 }
