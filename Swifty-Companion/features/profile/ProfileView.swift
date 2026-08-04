@@ -61,7 +61,7 @@ struct ProfileHeaderView: View {
                     .resizable()
                     .scaledToFill()
             } placeholder: {
-                imageFallbackView(size: avatarSize)
+                ImageFallbackView(size: avatarSize)
             }
             .frame(width: CGFloat(avatarSize), height: CGFloat(avatarSize))
             .clipShape(Circle())

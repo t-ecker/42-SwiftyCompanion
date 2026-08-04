@@ -26,7 +26,7 @@ nonisolated struct UserData: Codable, Identifiable, Hashable {
     let projects: [Project]
     
     init(from decoder: any Decoder) throws {
-        let raw = try rawUserData(from: decoder)
+        let raw = try RawUserData(from: decoder)
         login = raw.login
         id = raw.login
         email = raw.email
@@ -98,7 +98,7 @@ nonisolated struct Project: Codable, Hashable, Identifiable {
     let isValidated: Bool?
 }
 
-nonisolated private struct rawUserData: Decodable {
+nonisolated private struct RawUserData: Decodable {
     let login: String
     let email: String
     let firstName: String
@@ -143,7 +143,7 @@ nonisolated private struct rawUserData: Decodable {
         let name: String
     }
     struct ProjectUser: Decodable {
-        let project: projectInfo
+        let project: ProjectInfo
         let final_mark: Int?
         let validated: Bool?
         
@@ -152,7 +152,7 @@ nonisolated private struct rawUserData: Decodable {
             case validated = "validated?"
         }
     }
-    struct projectInfo: Decodable {
+    struct ProjectInfo: Decodable {
         let name: String
     }
 }

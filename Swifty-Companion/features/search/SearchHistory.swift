@@ -50,7 +50,7 @@ struct HistoryElement: View {
                     .resizable()
                     .scaledToFill()
             } placeholder: {
-                imageFallbackView(size: 50)
+                ImageFallbackView(size: 50)
             }
             .frame(width: 50, height: 50)
             .clipShape(Circle())
@@ -71,7 +71,7 @@ struct HistoryElement: View {
     }
 }
 
-struct imageFallbackView: View {
+struct ImageFallbackView: View {
     let size: Int
     
     var body: some View {
