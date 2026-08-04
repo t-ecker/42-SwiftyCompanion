@@ -14,7 +14,6 @@ struct ProfileView: View {
             ProfileHeaderView(user: user)
             ProfileContentView(user: user)
         }
-        .background(.white)
     }
 }
 
@@ -60,7 +59,7 @@ struct ProfileContentView: View {
     }
     
     var body: some View {
-        VStack {
+        VStack (spacing: 0){
             Picker("", selection: $selection) {
                 Text("Projects").tag(ProfileTab.projects)
                 Text("Info").tag(ProfileTab.info)
@@ -69,15 +68,20 @@ struct ProfileContentView: View {
             .pickerStyle(SegmentedPickerStyle())
             .padding(.horizontal, 32)
             .padding(.top, 16)
+            .padding(.bottom, 8)
+            .background(Color(.systemGroupedBackground))
             
-            switch selection {
-            case .projects:
-                ProjectListView(projects: user.projects)
-            case .skills:
-                SkillListView(skills: user.skills)
-            case .info:
-                InfoListView(user: user)
+            Group {
+                switch selection {
+                case .projects:
+                    ProjectListView(projects: user.projects)
+                case .skills:
+                    SkillListView(skills: user.skills)
+                case .info:
+                    InfoListView(user: user)
+                }
             }
+            .contentMargins(.top, 0)
         }
     }
 }
