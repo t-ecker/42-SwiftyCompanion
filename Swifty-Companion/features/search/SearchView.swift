@@ -33,6 +33,7 @@ struct SearchView: View {
                 .onChange(of: viewModel.activeUser) {
                     isSearchPresented = false
                 }
+                .toolbar { trailingToolbarItem }
                 .alert("Error", isPresented: $viewModel.state.isError) {
                     Button("OK") {
                         if case .error(let error) = viewModel.state {
@@ -60,18 +61,32 @@ struct SearchView: View {
     }
     
     @ViewBuilder
-    var content: some View {
+    private var content: some View {
         if viewModel.history.isEmpty {
             ContentUnavailableView {
-                Label("Find a User", systemImage: "magnifyingglass")
+                Label("Find a Student", systemImage: "person.crop.circle.badge.questionmark")
             } description: {
-                Text("Search for a user to get started")
+                Text("Search any 42 intra login")
             }
         } else {
             SearchHistory(viewModel: viewModel, isSearching: isSearchPresented)
         }
     }
+    private var trailingToolbarItem: some ToolbarContent {
+        ToolbarItem (placement: .topBarTrailing) {
+            if !viewModel.history.isEmpty {
+                Menu {
+                    Button("Clear Recents", systemImage: "trash", role: .destructive) {
+                        withAnimation(.smooth) { viewModel.clearHistory() }
+                    }
+                } label: {
+                    Label("More", systemImage: "ellipsis")
+                }
+            }
+        }
+    }
 }
+
 
 #Preview {
     let authService = AuthService()
