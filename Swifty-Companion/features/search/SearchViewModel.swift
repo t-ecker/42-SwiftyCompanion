@@ -38,29 +38,29 @@ class SearchViewModel {
 //            ]
 //        )
         
-        let tempUser2 = UserData(
-            id: "asmith",
-            login: "asmith",
-            email: "asmith@student.42.fr",
-            pictureLink: "https://cdn.intra.42.fr/users/default.png",
-            firstName: "Alice",
-            lastName: "Smith",
-            campusCity: "Berlin",
-            evalPoints: 4,
-            grade: "Learner",
-            start: "2024-03-20T09:30:00.000Z",
-            level: 6.25,
-            skills: [
-                Skill(id: 3, level: 3.7, name: "Unix"),
-                Skill(id: 4, level: 7.2, name: "Rigor")
-            ],
-            projects: [
-                Project(id: "get_next_line", finalGrade: nil, name: "get_next_line", isValidated: nil),
-                Project(id: "Born2beroot", finalGrade: 84, name: "Born2beroot", isValidated: true)
-            ]
-        )
-        
-        history = [tempUser2]
+//        let tempUser2 = UserData(
+//            id: "asmith",
+//            login: "asmith",
+//            email: "asmith@student.42.fr",
+//            pictureLink: "https://cdn.intra.42.fr/users/default.png",
+//            firstName: "Alice",
+//            lastName: "Smith",
+//            campusCity: "Berlin",
+//            evalPoints: 4,
+//            grade: "Learner",
+//            start: "2024-03-20T09:30:00.000Z",
+//            level: 6.25,
+//            skills: [
+//                Skill(id: 3, level: 3.7, name: "Unix"),
+//                Skill(id: 4, level: 7.2, name: "Rigor")
+//            ],
+//            projects: [
+//                Project(id: "get_next_line", finalGrade: nil, name: "get_next_line", isValidated: nil),
+//                Project(id: "Born2beroot", finalGrade: 84, name: "Born2beroot", isValidated: true)
+//            ]
+//        )
+//        
+//        history = [tempUser2]
     }
     
     public func addHistory(user: UserData) {
