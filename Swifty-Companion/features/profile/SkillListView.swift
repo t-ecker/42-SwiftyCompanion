@@ -17,7 +17,7 @@ struct SkillListView: View {
     var body: some View {
         List{
             if skills.isEmpty {
-                ContentUnavailableView("No skills yet", systemImage: "chart.pie")
+                ContentUnavailableView("No skills yet", systemImage: "wand.and.sparkles")
             } else {
                 ForEach(sortedSkills) { skill in
                     SkillElement(skill: skill)
