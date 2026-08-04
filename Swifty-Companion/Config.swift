@@ -11,7 +11,7 @@ nonisolated enum Config {
     static var clientID: String {
         guard let value = Bundle.main.object(forInfoDictionaryKey: "CLIENT_ID") as? String,
               !value.isEmpty else {
-            fatalError("CLIENT_ID missing, check Secrets.xcconfig")
+            fatalError("CLIENT_ID missing, check (or create) Secrets.xcconfig")
         }
         return value
     }
@@ -19,7 +19,7 @@ nonisolated enum Config {
     static var clientSecret: String {
         guard let value = Bundle.main.object(forInfoDictionaryKey: "CLIENT_SECRET") as? String,
               !value.isEmpty else {
-            fatalError("CLIENT_SECRET missing, check Secrets.xcconfig")
+            fatalError("CLIENT_SECRET missing, check (or create) Secrets.xcconfig")
         }
         return value
     }
