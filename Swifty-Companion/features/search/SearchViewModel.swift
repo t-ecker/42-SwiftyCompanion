@@ -6,6 +6,7 @@
 //
 
 import Observation
+import Foundation
 
 @Observable
 class SearchViewModel {
@@ -36,7 +37,7 @@ class SearchViewModel {
         print("Searching for \(searchText)")
         state = .loading
         do {
-            let profileInfo = try await apiService.getUserInfo(userName: searchText.lowercased())
+            let profileInfo = try await apiService.getUserInfo(userName: searchText.trimmingCharacters(in: .whitespacesAndNewlines).lowercased())
             print(profileInfo)
             addHistory(user: profileInfo)
             activeUser = profileInfo
