@@ -15,6 +15,7 @@ actor AuthService {
     public func invalidateToken() {
         currentToken = nil
         refreshTask?.cancel()
+        refreshTask = nil
     }
     
     public func getToken() async throws -> String {

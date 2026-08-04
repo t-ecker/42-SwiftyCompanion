@@ -19,11 +19,11 @@ struct SearchView: View {
         NavigationStack {
             content
                 .navigationBarTitle(Text("Search"), displayMode: .large)
-                .searchable(text: $viewModel.searchText, isPresented: $isSearchPresented, placement: .toolbar, prompt: "search")
+                .searchable(text: $viewModel.searchText, isPresented: $isSearchPresented, placement: .toolbar, prompt: "search by intra name")
                 .onSubmit(of: .search) {
                     if !viewModel.searchText.isEmpty {
                         Task {
-                            try await viewModel.search()
+                            await viewModel.search()
                         }
                     }
                 }

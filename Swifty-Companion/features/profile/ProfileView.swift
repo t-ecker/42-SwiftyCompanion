@@ -44,7 +44,7 @@ struct ProfileHeaderView: View {
             LevelBarView(user: user)
         }
         .padding(.bottom, 24)
-        .background(Color(.gray).opacity(0.1))
+        .background(Color(.systemGroupedBackground))
     }
 }
 
