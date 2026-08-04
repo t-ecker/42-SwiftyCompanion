@@ -42,11 +42,15 @@ actor AuthService {
     }
     
     private func refreshToken() async throws -> Token {
-        print("Refreshing token")
+        guard let clientID = Env["CLIENT_ID"],
+              let clientSecret = Env["CLIENT_SECRET"] else {
+            throw AuthError.missingCredentials
+        }
+
         guard let url = URL(string: "https://api.intra.42.fr/oauth/token") else {throw AuthError.invalidURL}
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
-        let bodyString = "grant_type=client_credentials&client_id=\(Config.clientID)&client_secret=\(Config.clientSecret)"
+        let bodyString = "grant_type=client_credentials&client_id=\(clientID)&client_secret=\(clientSecret)"
         request.httpBody = bodyString.data(using: .utf8)
         request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
         

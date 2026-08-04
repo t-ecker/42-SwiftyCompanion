@@ -18,6 +18,7 @@ enum AuthError: Error, LocalizedError {
     case notFound
     case forbiddenRequest
     case unprocessableRequest
+    case missingCredentials
 
     var errorDescription: String? {
         switch self {
@@ -39,6 +40,8 @@ enum AuthError: Error, LocalizedError {
             return "[Auth] Not Found"
         case .unprocessableRequest:
             return "[Auth] Unprocessable Request"
+        case .missingCredentials:
+            return "[Auth ] there are Missing credentials (check .env)"
         case .otherError(statusCode: let statusCode):
             return "[Auth] Server responded with status code \(statusCode)"
         }

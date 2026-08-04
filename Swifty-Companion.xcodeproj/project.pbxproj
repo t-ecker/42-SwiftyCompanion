@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		5D25ED4E302240A000960579 /* .env.example in Sources */ = {isa = PBXBuildFile; fileRef = 5D25ED4D3022409800960579 /* .env.example */; };
 		5D25ED50302240EF00960579 /* .env in Sources */ = {isa = PBXBuildFile; fileRef = 5D25ED4F302240EF00960579 /* .env */; };
+		5D25ED513022418700960579 /* .env in Resources */ = {isa = PBXBuildFile; fileRef = 5D25ED4F302240EF00960579 /* .env */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -133,6 +134,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5D25ED513022418700960579 /* .env in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
