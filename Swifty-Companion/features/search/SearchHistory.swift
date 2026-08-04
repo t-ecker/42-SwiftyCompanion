@@ -50,7 +50,7 @@ struct HistoryElement: View {
                     .resizable()
                     .scaledToFill()
             } placeholder: {
-                fallback
+                imageFallbackView(size: 50)
             }
             .frame(width: 50, height: 50)
             .clipShape(Circle())
@@ -69,15 +69,21 @@ struct HistoryElement: View {
             Spacer()
         }
     }
-    private var fallback: some View {
+}
+
+struct imageFallbackView: View {
+    let size: Int
+    
+    var body: some View {
         ZStack {
             Rectangle().fill(.quaternary)
             Image(systemName: "person.fill")
-                .font(.system(size: 50 * 0.45))
+                .font(.system(size: CGFloat(size) * 0.45))
                 .foregroundStyle(.secondary)
         }
     }
 }
+
 
 #Preview {
     HistoryElement(user: UserData(

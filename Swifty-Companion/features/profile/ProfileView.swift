@@ -27,7 +27,7 @@ struct ProfileHeaderView: View {
                     .resizable()
                     .scaledToFill()
             } placeholder: {
-                Color.blue
+                imageFallbackView(size: 200)
             }
             .frame(width: 200, height: 200)
             .clipShape(Circle())
