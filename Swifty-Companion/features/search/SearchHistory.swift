@@ -29,9 +29,6 @@ struct SearchHistory: View {
                     HStack {
                         Text("Recent")
                         Spacer()
-//                        Button("Clear all") {
-//                            viewModel.clearHistory()
-//                        }
                     }
                 }
             }

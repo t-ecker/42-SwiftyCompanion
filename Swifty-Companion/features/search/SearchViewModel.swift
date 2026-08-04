@@ -20,25 +20,24 @@ class SearchViewModel {
         self.apiService = apiService
     }
     
-    public func addHistory(user: UserData) {
+    func addHistory(user: UserData) {
         if !history.contains(where: { $0.id == user.id }) {
             history.insert(user, at: 0)
         }
     }
-    public func clearHistory() {
+    func clearHistory() {
         history.removeAll()
     }
     
-    public func selectUser (user: UserData) {
+    func selectUser (user: UserData) {
         activeUser = user
     }
     
-    public func search() async {
+    func search() async {
         print("Searching for \(searchText)")
         state = .loading
         do {
             let profileInfo = try await apiService.getUserInfo(userName: searchText.trimmingCharacters(in: .whitespacesAndNewlines).lowercased())
-            print(profileInfo)
             addHistory(user: profileInfo)
             activeUser = profileInfo
             state = .idle

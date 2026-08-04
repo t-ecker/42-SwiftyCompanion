@@ -13,7 +13,7 @@ class ApiService {
         self.authService = authService
     }
     
-    public func getUserInfo(userName: String) async throws -> UserData {
+    func getUserInfo(userName: String) async throws -> UserData {
         print("getting user info")
         guard let url = URL(string: "https://api.intra.42.fr/v2/users/\(userName)") else {
             throw ApiError.invalidURL

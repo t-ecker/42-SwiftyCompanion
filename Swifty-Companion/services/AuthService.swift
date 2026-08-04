@@ -12,13 +12,13 @@ actor AuthService {
     private var refreshTask: Task<Token, Error>?
     
     
-    public func invalidateToken() {
+    func invalidateToken() {
         currentToken = nil
         refreshTask?.cancel()
         refreshTask = nil
     }
     
-    public func getToken() async throws -> String {
+    func getToken() async throws -> String {
         if let token = currentToken, !token.isExpired {
             print("Using existing token")
             return token.accessToken

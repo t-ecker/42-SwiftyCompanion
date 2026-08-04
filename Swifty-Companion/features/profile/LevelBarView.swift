@@ -30,7 +30,3 @@ struct LevelBarView: View {
         .padding(.top)
     }
 }
-
-//#Preview {
-//    LevelBarView()
-//}
