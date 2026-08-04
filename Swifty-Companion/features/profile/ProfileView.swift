@@ -8,18 +8,52 @@ import SwiftUI
 
 struct ProfileView: View {
     let user: UserData
+    @State private var selection: ProfileTab = .info
+
+    enum ProfileTab: String, CaseIterable {
+        case projects = "Projects"
+        case info = "Info"
+        case skills = "Skills"
+    }
 
     var body: some View {
-        VStack(spacing: 0) {
-            ProfileHeaderView(user: user)
-            ProfileContentView(user: user)
+        List {
+            Section {
+                ProfileHeaderView(user: user)
+                    .listRowInsets(EdgeInsets())
+                    .listRowBackground(Color.clear)
+            }
+
+            Section {
+                switch selection {
+                case .projects:
+                    ProjectRows(projects: user.projects)
+                case .skills:
+                    SkillRows(skills: user.skills)
+                case .info:
+                    InfoRows(user: user)
+                }
+            } header: {
+                Picker("", selection: $selection) {
+                    Text("Projects").tag(ProfileTab.projects)
+                    Text("Info").tag(ProfileTab.info)
+                    Text("Skills").tag(ProfileTab.skills)
+                }
+                .pickerStyle(.segmented)
+            }
         }
+        .scrollIndicators(.hidden)
+        .contentMargins(.top, 0, for: .scrollContent)
     }
 }
 
 struct ProfileHeaderView: View {
     let user: UserData
-    
+    @Environment(\.verticalSizeClass) private var verticalSizeClass
+
+
+    private var avatarSize: Int { verticalSizeClass == .compact ? 150 : 200 }
+
     var body: some View {
         VStack {
             AsyncImage(url: URL(string: user.pictureLink)) { image in
@@ -27,15 +61,15 @@ struct ProfileHeaderView: View {
                     .resizable()
                     .scaledToFill()
             } placeholder: {
-                imageFallbackView(size: 200)
+                imageFallbackView(size: avatarSize)
             }
-            .frame(width: 200, height: 200)
+            .frame(width: CGFloat(avatarSize), height: CGFloat(avatarSize))
             .clipShape(Circle())
             .overlay {
                 Circle()
                     .strokeBorder(.separator, lineWidth: 0.5)
             }
-            
+
             Text(user.login)
                 .font(Font.title.bold())
             Text("\(user.firstName) \(user.lastName)")
@@ -43,46 +77,7 @@ struct ProfileHeaderView: View {
 
             LevelBarView(user: user)
         }
-        .padding(.bottom, 24)
-        .background(Color(.systemGroupedBackground))
-    }
-}
-
-struct ProfileContentView: View {
-    let user: UserData
-    @State private var selection: ProfileTab = .info
-    
-    enum ProfileTab: String, CaseIterable {
-        case skills = "Skills"
-        case projects = "Projects"
-        case info = "Info"
-    }
-    
-    var body: some View {
-        VStack (spacing: 0){
-            Picker("", selection: $selection) {
-                Text("Projects").tag(ProfileTab.projects)
-                Text("Info").tag(ProfileTab.info)
-                Text("Skills").tag(ProfileTab.skills)
-            }
-            .pickerStyle(SegmentedPickerStyle())
-            .padding(.horizontal, 32)
-            .padding(.top, 16)
-            .padding(.bottom, 8)
-            .background(Color(.systemGroupedBackground))
-            
-            Group {
-                switch selection {
-                case .projects:
-                    ProjectListView(projects: user.projects)
-                case .skills:
-                    SkillListView(skills: user.skills)
-                case .info:
-                    InfoListView(user: user)
-                }
-            }
-            .contentMargins(.top, 0)
-        }
+        .padding(.bottom)
     }
 }
 
@@ -101,12 +96,12 @@ struct ProfileContentView: View {
         start: "2024-03-20T09:30:00.000Z",
         level: 6.25,
         skills: [
-//            Skill(id: 3, level: 3.7, name: "Unix"),
-//            Skill(id: 4, level: 7.2, name: "Rigor")
+            Skill(id: 3, level: 3.7, name: "Unix"),
+            Skill(id: 4, level: 7.2, name: "Rigor")
         ],
         projects: [
-//            Project(id: "get_next_line", finalGrade: nil, name: "get_next_line", isValidated: nil),
-//            Project(id: "Born2beroot", finalGrade: 84, name: "Born2beroot", isValidated: true)
+            Project(id: "get_next_line", finalGrade: nil, name: "get_next_line", isValidated: nil),
+            Project(id: "Born2beroot", finalGrade: 84, name: "Born2beroot", isValidated: true)
         ]
     )
     ProfileView(user: tempUser2)
