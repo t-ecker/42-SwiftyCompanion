@@ -20,8 +20,8 @@ struct SkillListView: View {
                 SkillElement(skill: skill)
             }
         }
-        .listStyle(.plain)
-        .padding(.horizontal)
+//        .listStyle(.plain)
+//        .padding(.horizontal)
     }
 }
 

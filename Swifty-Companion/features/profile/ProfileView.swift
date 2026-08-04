@@ -14,6 +14,7 @@ struct ProfileView: View {
             ProfileHeaderView(user: user)
             ProfileContentView(user: user)
         }
+        .background(.white)
     }
 }
 
@@ -31,14 +32,10 @@ struct ProfileHeaderView: View {
             }
             .frame(width: 200, height: 200)
             .clipShape(Circle())
-            .overlay(
+            .overlay {
                 Circle()
-                    .strokeBorder(Color.white, lineWidth: 2)
-            )
-            .overlay(
-                Circle()
-                    .stroke(Color.white, lineWidth: 1)
-            )
+                    .strokeBorder(.separator, lineWidth: 0.5)
+            }
             
             Text(user.login)
                 .font(Font.title.bold())
@@ -54,7 +51,7 @@ struct ProfileHeaderView: View {
 
 struct ProfileContentView: View {
     let user: UserData
-    @State private var selection: ProfileTab = .projects
+    @State private var selection: ProfileTab = .info
     
     enum ProfileTab: String, CaseIterable {
         case skills = "Skills"
@@ -70,7 +67,7 @@ struct ProfileContentView: View {
                 Text("Skills").tag(ProfileTab.skills)
             }
             .pickerStyle(SegmentedPickerStyle())
-            .padding(.horizontal)
+            .padding(.horizontal, 32)
             .padding(.top, 16)
             
             switch selection {
@@ -81,7 +78,6 @@ struct ProfileContentView: View {
             case .info:
                 InfoListView(user: user)
             }
-//            Spacer()
         }
     }
 }

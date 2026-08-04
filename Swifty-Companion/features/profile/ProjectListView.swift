@@ -16,8 +16,8 @@ struct ProjectListView: View {
                 ProjectElement(project: project)
             }
         }
-        .listStyle(.plain)
-        .padding(.horizontal)
+//        .listStyle(.plain)
+//        .padding(.horizontal)
     }
 }
 

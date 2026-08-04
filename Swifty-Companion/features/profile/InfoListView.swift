@@ -26,8 +26,8 @@ struct InfoListView: View {
             InfoElement(category: "Start Date", info: formattedStartDate)
                 
         }
-        .listStyle(.plain)
-        .padding(.horizontal)
+//        .listStyle(.plain)
+//        .padding(.horizontal)
     }
 }
 

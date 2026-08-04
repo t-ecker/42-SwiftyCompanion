@@ -23,14 +23,14 @@ struct SearchHistory: View {
                 }
             } header: {
                 if isSearching {
-                    Text("Recent Searches")
+                    Text("Recent")
                 } else {
                     HStack {
-                        Text("Recent Searches")
+                        Text("Recent")
                         Spacer()
-                        Button("Clear all") {
-                            viewModel.clearHistory()
-                        }
+//                        Button("Clear all") {
+//                            viewModel.clearHistory()
+//                        }
                     }
                 }
             }
@@ -50,18 +50,14 @@ struct HistoryElement: View {
                     .resizable()
                     .scaledToFill()
             } placeholder: {
-                Color.gray
+                fallback
             }
             .frame(width: 50, height: 50)
             .clipShape(Circle())
-            .overlay(
+            .overlay {
                 Circle()
-                    .strokeBorder(Color.gray.opacity(0.3), lineWidth: 1)
-            )
-            .overlay(
-                Circle()
-                    .stroke(Color.gray.opacity(0.3), lineWidth: 1)
-            )
+                    .strokeBorder(.separator, lineWidth: 0.5)
+            }
 
             VStack (alignment: .leading){
                 Text(user.login)
@@ -71,6 +67,14 @@ struct HistoryElement: View {
                     .foregroundStyle(.secondary)
             }
             Spacer()
+        }
+    }
+    private var fallback: some View {
+        ZStack {
+            Rectangle().fill(.quaternary)
+            Image(systemName: "person.fill")
+                .font(.system(size: 50 * 0.45))
+                .foregroundStyle(.secondary)
         }
     }
 }
