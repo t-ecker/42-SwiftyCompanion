@@ -57,9 +57,6 @@ struct ProjectElement: View {
     }
 }
 
-//#Preview {
-//    ProjectListView()
-//}
 #Preview {
     ProjectListView(projects: [
 //        Project(id: "libft", finalGrade: 125, name: "Libft", isValidated: true),
