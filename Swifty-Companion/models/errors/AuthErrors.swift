@@ -41,7 +41,7 @@ enum AuthError: Error, LocalizedError {
         case .unprocessableRequest:
             return "[Auth] Unprocessable Request"
         case .missingCredentials:
-            return "[Auth ] there are Missing credentials (check .env)"
+            return "[Auth] Missing credentials (check .env)"
         case .otherError(statusCode: let statusCode):
             return "[Auth] Server responded with status code \(statusCode)"
         }

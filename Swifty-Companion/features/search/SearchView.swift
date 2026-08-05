@@ -21,9 +21,9 @@ struct SearchView: View {
                 .navigationBarTitle(Text("Search"), displayMode: .large)
                 .searchable(text: $viewModel.searchText, isPresented: $isSearchPresented, placement: .toolbar, prompt: "search by intra name")
                 .onSubmit(of: .search) {
-                        Task {
-                            await viewModel.search()
-                        }
+                    Task {
+                        await viewModel.search()
+                    }
                 }
                 .navigationDestination(item: $viewModel.activeUser) { user in
                     ProfileView(user: user)

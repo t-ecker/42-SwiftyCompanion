@@ -39,19 +39,19 @@ nonisolated struct UserData: Codable, Identifiable, Hashable {
         
         campusCity = raw.campus.first?.city ?? "Unknown"
         
-        let commonCore = raw.cursusUsers.first(where: { $0.curse.name == "42cursus" }) ?? raw.cursusUsers.last
+        let commonCore = raw.cursusUsers.first(where: { $0.cursus.name == "42cursus" }) ?? raw.cursusUsers.last
         
         start = commonCore?.beginAt ?? "Unknown"
         level = commonCore?.level ?? 0
         skills = commonCore?.skills ?? []
         grade = commonCore?.grade ?? (staff ? "Staff" : "Unknown")
         
-        projects = raw.projectUsers.map { ProjectUser in
+        projects = raw.projectUsers.map { projectUser in
             Project(
-                id: ProjectUser.project.name,
-                finalGrade: ProjectUser.final_mark,
-                name: ProjectUser.project.name,
-                isValidated: ProjectUser.validated
+                id: projectUser.project.name,
+                finalGrade: projectUser.finalMark,
+                name: projectUser.project.name,
+                isValidated: projectUser.validated
             )
         }
     }
@@ -66,6 +66,7 @@ nonisolated struct UserData: Codable, Identifiable, Hashable {
         campusCity: String,
         evalPoints: Int,
         grade: String,
+        staff: Bool = false,
         start: String,
         level: Double,
         skills: [Skill],
@@ -80,11 +81,11 @@ nonisolated struct UserData: Codable, Identifiable, Hashable {
         self.campusCity = campusCity
         self.evalPoints = evalPoints
         self.grade = grade
+        self.staff = staff
         self.start = start
         self.level = level
         self.skills = skills
         self.projects = projects
-        self.staff = false
     }
 }
 
@@ -111,7 +112,7 @@ nonisolated private struct RawUserData: Decodable {
     
     let campus: [Campus]
     let image: Image?
-    let cursusUsers: [Curse]
+    let cursusUsers: [Cursus]
     let projectUsers: [ProjectUser]
     
     enum CodingKeys: String, CodingKey {
@@ -130,30 +131,30 @@ nonisolated private struct RawUserData: Decodable {
     struct Image: Decodable {
         let link: String?
     }
-    struct Curse: Decodable {
+    struct Cursus: Decodable {
         let beginAt: String
         let level: Double
         let skills: [Skill]
         let grade: String?
-        let curse: CurseInfo
-        
+        let cursus: CursusInfo
+
         enum CodingKeys: String, CodingKey {
             case beginAt = "begin_at"
-            case level, skills, grade
-            case curse = "cursus"
+            case level, skills, grade, cursus
         }
     }
-    
-    struct CurseInfo: Decodable {
+
+    struct CursusInfo: Decodable {
         let name: String
     }
     struct ProjectUser: Decodable {
         let project: ProjectInfo
-        let final_mark: Int?
+        let finalMark: Int?
         let validated: Bool?
-        
+
         enum CodingKeys: String, CodingKey {
-            case project, final_mark
+            case project
+            case finalMark = "final_mark"
             case validated = "validated?"
         }
     }
