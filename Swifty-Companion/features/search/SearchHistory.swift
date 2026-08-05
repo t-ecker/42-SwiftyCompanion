@@ -9,7 +9,6 @@ import SwiftUI
 
 struct SearchHistory: View {
     let viewModel: SearchViewModel
-    let isSearching: Bool
 
     var body: some View {
         List {
@@ -23,14 +22,7 @@ struct SearchHistory: View {
                     .buttonStyle(.plain)
                 }
             } header: {
-                if isSearching {
-                    Text("Recent")
-                } else {
-                    HStack {
-                        Text("Recent")
-                        Spacer()
-                    }
-                }
+                Text("Recent")
             }
         }
         .listStyle(.insetGrouped)

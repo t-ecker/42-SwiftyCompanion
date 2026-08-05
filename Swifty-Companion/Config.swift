@@ -11,7 +11,7 @@ enum Env {
     nonisolated static private let values: [String: String] = {
         guard let url = Bundle.main.url(forResource: ".env", withExtension: nil),
               let content = try? String(contentsOf: url, encoding: .utf8)
-        else { print("env file not found"); return [:] }
+        else { return [:] }
 
         var dict: [String: String] = [:]
         for line in content.split(separator: "\n") {

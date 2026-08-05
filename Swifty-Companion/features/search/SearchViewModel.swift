@@ -34,7 +34,6 @@ class SearchViewModel {
     }
     
     func search() async {
-        print("Searching for \(searchText)")
         state = .loading
         do {
             let username = searchText.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
@@ -42,14 +41,12 @@ class SearchViewModel {
                 state = .idle
                 return
             }
-            let profileInfo = try await apiService.getUserInfo(userName: searchText.trimmingCharacters(in: .whitespacesAndNewlines).lowercased())
+            let profileInfo = try await apiService.getUserInfo(userName: username)
             addHistory(user: profileInfo)
             activeUser = profileInfo
             state = .idle
             searchText = ""
-            print("Found user: \(profileInfo.login)")
         } catch {
-            print("Search error: \(error)")
             state = .error(error)
         }
     }

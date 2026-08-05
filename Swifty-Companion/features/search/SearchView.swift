@@ -21,11 +21,9 @@ struct SearchView: View {
                 .navigationBarTitle(Text("Search"), displayMode: .large)
                 .searchable(text: $viewModel.searchText, isPresented: $isSearchPresented, placement: .toolbar, prompt: "search by intra name")
                 .onSubmit(of: .search) {
-                    if !viewModel.searchText.isEmpty {
                         Task {
                             await viewModel.search()
                         }
-                    }
                 }
                 .navigationDestination(item: $viewModel.activeUser) { user in
                     ProfileView(user: user)
@@ -35,11 +33,7 @@ struct SearchView: View {
                 }
                 .toolbar { trailingToolbarItem }
                 .alert("Error", isPresented: $viewModel.state.isError) {
-                    Button("OK") {
-                        if case .error(let error) = viewModel.state {
-                            print(error.localizedDescription)
-                        }
-                    }
+                    Button("OK") { }
                 } message: {
                     if case .error(let error) = viewModel.state {
                         Text(error.localizedDescription)
@@ -69,7 +63,7 @@ struct SearchView: View {
                 Text("Search any 42 intra login")
             }
         } else {
-            SearchHistory(viewModel: viewModel, isSearching: isSearchPresented)
+            SearchHistory(viewModel: viewModel)
         }
     }
     private var trailingToolbarItem: some ToolbarContent {

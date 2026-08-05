@@ -19,11 +19,9 @@ actor AuthService {
     
     func getToken() async throws -> String {
         if let token = currentToken, !token.isExpired {
-            print("Using existing token")
             return token.accessToken
         }
         else if let existingTask = refreshTask {
-            print("Using existing refresh task")
             return try await existingTask.value.accessToken
         }
         let task = Task {
@@ -31,13 +29,10 @@ actor AuthService {
             currentToken = token
             return token
         }
-        print("Creating new refresh task")
         refreshTask = task
         defer { refreshTask = nil }
-        
-        let accessToken = try await task.value.accessToken
-        print("refrresh task done")
-        return accessToken
+
+        return try await task.value.accessToken
     }
     
     private func refreshToken() async throws -> Token {
@@ -77,7 +72,6 @@ actor AuthService {
         default:
             throw AuthError.otherError(statusCode: httpResponse.statusCode)
         }
-        print("token refreshed!")
         return try JSONDecoder().decode(Token.self, from: data)
     }
 }
